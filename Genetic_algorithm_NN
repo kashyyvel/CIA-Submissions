@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 
 def load_data():
-    data = pd.read_csv(r"C:\Users\aniru\Downloads\MLT\NN\Bank_Personal_Loan_Modelling.csv")
+    data = pd.read_csv(r"Bank_Personal_Loan_Modelling.csv")
     data.drop(['ID'] , axis = 1 , inplace = True)
     x = data.drop(['Personal Loan'] , axis = 1).values
     y = data['Personal Loan'].values
