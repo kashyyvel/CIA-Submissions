@@ -1,0 +1,26 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv(r'Bank_Personal_Loan_Modelling.csv')
+df.head()
+
+df.drop(['ID'], inplace=True, axis=1)
+df['Age'] = pd.cut(df['Age'], bins=[23, 30, 45, 67], labels=['Young', 'Adult', 'Old'])
+le = LabelEncoder()
+df['Age'] = le.fit_transform(df['Age'])
+col = ['Age', 'Experience', 'Income', 'ZIP Code', 'Family', 'CCAvg', 'Education', 'Mortgage', 'Securities Account',
+       'CD Account', 'Online', 'CreditCard', 'Personal Loan']
+df = df[col]
+x = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
+
+keras = Sequential()
+keras.add(Dense(12, input_dim=12, activation='relu'))
+keras.add(Dense(8, activation='relu'))
+keras.add(Dense(6, activation='relu'))
+keras.add(Dense(1, activation='sigmoid'))
+keras.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+keras.fit(x_train, y_train, epochs=20, batch_size=25)
